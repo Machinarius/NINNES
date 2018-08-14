@@ -1,6 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -24,7 +24,7 @@ namespace NINNES.RoslynAnalyzers {
     #region Overrides of DiagnosticAnalyzer
 
     public override void Initialize(AnalysisContext context) {
-      context.RegisterCodeBlockAction(PerformCodeBlockAnalysis);
+      context.RegisterSyntaxNodeAction(PerformNodeAnalysis, SyntaxKind.MultiplyExpression, SyntaxKind.MultiplyAssignmentExpression);
     }
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
@@ -32,26 +32,28 @@ namespace NINNES.RoslynAnalyzers {
 
     #endregion
 
-    private void PerformCodeBlockAnalysis(CodeBlockAnalysisContext context) {
-      var node = context.CodeBlock;
-      var multiplicationSubnodes = node.DescendantNodes()
-                                       .Where(cNode => cNode is BinaryExpressionSyntax)
-                                       .Cast<BinaryExpressionSyntax>()
-                                       .Where(expression => expression.IsKind(SyntaxKind.MultiplyExpression));
-
-      foreach (var multNode in multiplicationSubnodes) {
-        var errorDiagnostic = Diagnostic.Create(MultiplicationForbiddenRule, multNode.GetLocation());
-        context.ReportDiagnostic(errorDiagnostic);
+    private void PerformNodeAnalysis(SyntaxNodeAnalysisContext context) {
+      var node = context.Node;
+      switch (node.Kind()) {
+        case SyntaxKind.MultiplyExpression:
+          AnalyzeMultiplyExpression(context, (BinaryExpressionSyntax)node);
+          break;
+        case SyntaxKind.MultiplyAssignmentExpression:
+          AnalyzeMultiplyAssignmentExpression(context, node);
+          break;
+        default:
+          throw new InvalidOperationException("Unrecognized node type");
       }
+    }
 
-      var multAssignmentNodes = node.DescendantNodes()
-                                    .Where(cNode => cNode is AssignmentExpressionSyntax)
-                                    .Cast<AssignmentExpressionSyntax>()
-                                    .Where(expression => expression.IsKind(SyntaxKind.MultiplyAssignmentExpression));
-      foreach (var assignmentNode in multAssignmentNodes) {
-        var errorDiagnostic = Diagnostic.Create(MultiplicationForbiddenRule, assignmentNode.OperatorToken.GetLocation());
-        context.ReportDiagnostic(errorDiagnostic);
-      }
+    private void AnalyzeMultiplyAssignmentExpression(SyntaxNodeAnalysisContext context, SyntaxNode node) {
+      var errorDiagnostic = Diagnostic.Create(MultiplicationForbiddenRule, node.GetLocation());
+      context.ReportDiagnostic(errorDiagnostic);
+    }
+
+    private void AnalyzeMultiplyExpression(SyntaxNodeAnalysisContext context, BinaryExpressionSyntax node) {
+      var errorDiagnostic = Diagnostic.Create(MultiplicationForbiddenRule, node.GetLocation());
+      context.ReportDiagnostic(errorDiagnostic);
     }
   }
 }

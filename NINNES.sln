@@ -3,13 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINNES.RoslynAnalyzers", "NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers.csproj", "{5530C129-DCF9-4F5E-B1D4-927C18FE4506}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NINNES.RoslynAnalyzers", "NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers.csproj", "{5530C129-DCF9-4F5E-B1D4-927C18FE4506}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINNES.RoslynAnalyzers.Tests", "NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers.Tests\NINNES.RoslynAnalyzers.Tests.csproj", "{42F5229E-D966-4463-A3CD-0DE796066704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NINNES.RoslynAnalyzers.Tests", "NINNES.RoslynAnalyzers\NINNES.RoslynAnalyzers.Tests\NINNES.RoslynAnalyzers.Tests.csproj", "{42F5229E-D966-4463-A3CD-0DE796066704}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BC6C0130-57BE-4F66-A0BD-74C0A8903C14}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global

@@ -7,15 +7,11 @@
   <ItemGroup>
     <Compile Remove="Assets\MultiplicationAssignment.cs" />
     <Compile Remove="Assets\SimpleMultiplication.cs" />
-    <Compile Remove="Assets\Test01.cs" />
-    <Compile Remove="Assets\Test02.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\MultiplicationAssignment.cs" />
     <EmbeddedResource Include="Assets\SimpleMultiplication.cs" />
-    <EmbeddedResource Include="Assets\Test01.cs" />
-    <EmbeddedResource Include="Assets\Test02.cs" />
   </ItemGroup>
 
   <ItemGroup>
