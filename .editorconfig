@@ -1,0 +1,14 @@
+root = true
+
+[*.cs]
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_else = none
+csharp_new_line_before_catch = none
+csharp_new_line_before_finally = none
+csharp_new_line_before_members_in_object_initializers = none
+csharp_new_line_before_members_in_anonymous_types = none
+csharp_new_line_between_query_expression_clauses = none
+dotnet_sort_system_directives_first = true
