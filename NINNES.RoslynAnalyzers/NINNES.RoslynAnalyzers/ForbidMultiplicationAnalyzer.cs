@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -18,7 +17,7 @@ namespace NINNES.RoslynAnalyzers {
     private static readonly LocalizableString Message =
       new LocalizableResourceString(nameof(Resources.MultiplicationForbiddenDescription), Resources.ResourceManager, typeof(Resources));
 
-    private static DiagnosticDescriptor MultiplicationForbiddenRule =
+    private static readonly DiagnosticDescriptor MultiplicationForbiddenRule =
       new DiagnosticDescriptor(DiagnosticId, Title, Message, AnalyzerCategories.NESCPULimitations, DiagnosticSeverity.Error, true, Description);
 
     #region Overrides of DiagnosticAnalyzer

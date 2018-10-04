@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NINNES.RoslynAnalyzers.Tests.Assets;
@@ -44,8 +45,26 @@ namespace NINNES.RoslynAnalyzers.Tests {
       VerifyCSharpDiagnostic(testProgram, multiplicationAssignmentDiagnostic);
     }
 
+    [TestMethod]
+    public void ASimpleMultiplicationForbiddenDiagnosticMustBeFixable() {
+      var badProgram = TestAssetsReader.ReadTestAsset("MultiplicationAssignment.cs");
+      var fixedProgram = TestAssetsReader.ReadTestAsset("MultiplicationAssignmentFixed.cs");
+      VerifyCSharpFix(badProgram, fixedProgram);
+    }
+
+    [TestMethod]
+    public void AMultiplicationAssignmentForbiddenDiagnosticMustBeFixable() {
+      var badProgram = TestAssetsReader.ReadTestAsset("SimpleMultiplication.cs");
+      var fixedProgram = TestAssetsReader.ReadTestAsset("SimpleMultiplicationFixed.cs");
+      VerifyCSharpFix(badProgram, fixedProgram);
+    }
+
     protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() {
       return new ForbidMultiplicationAnalyzer();
+    }
+
+    protected override CodeFixProvider GetCSharpCodeFixProvider() {
+      return new ForbidMultiplicationFixProvider();
     }
   }
 }
