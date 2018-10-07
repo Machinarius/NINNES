@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -17,6 +18,9 @@ namespace NINNES.RoslynAnalyzers.Tests.Helpers {
     private static readonly MetadataReference SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
     private static readonly MetadataReference CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
     private static readonly MetadataReference CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
+    private static readonly MetadataReference NINNESPlatformReference = MetadataReference.CreateFromFile(typeof(NINNES.Platform.Shims.NESMath).Assembly.Location);
+    private static readonly MetadataReference NetStandardReference = MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(object).Assembly.Location), "netstandard.dll"));
+    private static readonly MetadataReference SystemRuntimeReference = MetadataReference.CreateFromFile(Path.Combine(Path.GetDirectoryName(typeof(object).Assembly.Location), "System.Runtime.dll"));
 
     internal static string DefaultFilePathPrefix = "Test";
     internal static string CSharpDefaultFileExt = "cs";
@@ -132,10 +136,13 @@ namespace NINNES.RoslynAnalyzers.Tests.Helpers {
       var solution = new AdhocWorkspace()
           .CurrentSolution
           .AddProject(projectId, TestProjectName, TestProjectName, language)
+          .AddMetadataReference(projectId, NetStandardReference)
           .AddMetadataReference(projectId, CorlibReference)
           .AddMetadataReference(projectId, SystemCoreReference)
           .AddMetadataReference(projectId, CSharpSymbolsReference)
-          .AddMetadataReference(projectId, CodeAnalysisReference);
+          .AddMetadataReference(projectId, CodeAnalysisReference)
+          .AddMetadataReference(projectId, SystemRuntimeReference)
+          .AddMetadataReference(projectId, NINNESPlatformReference);
 
       int count = 0;
       foreach (var source in sources) {

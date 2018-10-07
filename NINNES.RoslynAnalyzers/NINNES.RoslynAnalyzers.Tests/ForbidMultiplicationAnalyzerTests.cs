@@ -46,14 +46,14 @@ namespace NINNES.RoslynAnalyzers.Tests {
     }
 
     [TestMethod]
-    public void ASimpleMultiplicationForbiddenDiagnosticMustBeFixable() {
+    public void AMultiplicationAssignmentForbiddenDiagnosticMustBeFixable() {
       var badProgram = TestAssetsReader.ReadTestAsset("MultiplicationAssignment.cs");
       var fixedProgram = TestAssetsReader.ReadTestAsset("MultiplicationAssignmentFixed.cs");
       VerifyCSharpFix(badProgram, fixedProgram);
     }
-
+    
     [TestMethod]
-    public void AMultiplicationAssignmentForbiddenDiagnosticMustBeFixable() {
+    public void ASimpleMultiplicationForbiddenDiagnosticMustBeFixable() {
       var badProgram = TestAssetsReader.ReadTestAsset("SimpleMultiplication.cs");
       var fixedProgram = TestAssetsReader.ReadTestAsset("SimpleMultiplicationFixed.cs");
       VerifyCSharpFix(badProgram, fixedProgram);
