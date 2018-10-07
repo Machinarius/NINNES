@@ -57,17 +57,7 @@ namespace NINNES.RoslynAnalyzers {
       var rightOperand = multiplicationSyntax.Right;
       var leftOperand = multiplicationSyntax.Left;
 
-      // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
-      // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
-      var nesMath = SyntaxFactory.IdentifierName("NESMath");
-      var multiply = SyntaxFactory.IdentifierName("Multiply");
-      var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
-
-      var leftArgument = SyntaxFactory.Argument(leftOperand);
-      var rightArgument = SyntaxFactory.Argument(rightOperand);
-      var argumentsList = SyntaxFactory.SeparatedList(new [] { leftArgument, rightArgument });
-      var invocation = SyntaxFactory.InvocationExpression(multiplyAccess, SyntaxFactory.ArgumentList(argumentsList));
-
+      var invocation = FabricateMultiplyInvocation(leftOperand, rightOperand);
       var trackingAnnotation = new SyntaxAnnotation();
       invocation = invocation.WithAdditionalAnnotations(trackingAnnotation);
 
@@ -89,17 +79,9 @@ namespace NINNES.RoslynAnalyzers {
       var variableName = variableNode.ChildTokens().First().Text;
       var valueNode = node.ChildNodes().Skip(1).First();
 
-      // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
-      // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
-      var nesMath = SyntaxFactory.IdentifierName("NESMath");
-      var multiply = SyntaxFactory.IdentifierName("Multiply");
-      var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
-
-      var variableArgument = SyntaxFactory.Argument(SyntaxFactory.IdentifierName(variableName));
-      var valueArgument = SyntaxFactory.Argument(multiplyOperand);
-      var argumentsList = SyntaxFactory.SeparatedList(new[] { variableArgument, valueArgument });
-      var invocation = SyntaxFactory.InvocationExpression(multiplyAccess, SyntaxFactory.ArgumentList(argumentsList));
-      var assignment = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName(variableName), invocation);
+      var variableIdentifier = SyntaxFactory.IdentifierName(variableName);
+      var invocation = FabricateMultiplyInvocation(variableIdentifier, multiplyOperand);
+      var assignment = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, variableIdentifier, invocation);
       
       var trackingAnnotation = new SyntaxAnnotation();
       assignment = assignment
@@ -114,6 +96,21 @@ namespace NINNES.RoslynAnalyzers {
       modifiedDocument = await AddUsingStatementAsync(cancelToken, modifiedDocument);
 
       return modifiedDocument;
+    }
+
+    private InvocationExpressionSyntax FabricateMultiplyInvocation(ExpressionSyntax leftExpression, ExpressionSyntax rightExpression) {
+      // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
+      // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
+      var nesMath = SyntaxFactory.IdentifierName("NESMath");
+      var multiply = SyntaxFactory.IdentifierName("Multiply");
+      var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
+      
+      var leftArgument = SyntaxFactory.Argument(leftExpression);
+      var rightArgument = SyntaxFactory.Argument(rightExpression);
+      var argumentsList = SyntaxFactory.SeparatedList(new[] { leftArgument, rightArgument });
+      var invocation = SyntaxFactory.InvocationExpression(multiplyAccess, SyntaxFactory.ArgumentList(argumentsList));
+
+      return invocation;
     }
 
     private async Task<Document> AddUsingStatementAsync(CancellationToken cancelToken, Document document) {
