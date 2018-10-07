@@ -7,6 +7,8 @@
   <ItemGroup>
     <Compile Remove="Assets\MultiplicationAssignment.cs" />
     <Compile Remove="Assets\MultiplicationAssignmentFixed.cs" />
+    <Compile Remove="Assets\MultiplicationsWithVariables.cs" />
+    <Compile Remove="Assets\MultiplicationsWithVariablesFixed.cs" />
     <Compile Remove="Assets\SimpleMultiplication.cs" />
     <Compile Remove="Assets\SimpleMultiplicationFixed.cs" />
   </ItemGroup>
@@ -14,6 +16,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\MultiplicationAssignment.cs" />
     <EmbeddedResource Include="Assets\MultiplicationAssignmentFixed.cs" />
+    <EmbeddedResource Include="Assets\MultiplicationsWithVariables.cs" />
+    <EmbeddedResource Include="Assets\MultiplicationsWithVariablesFixed.cs" />
     <EmbeddedResource Include="Assets\SimpleMultiplication.cs" />
     <EmbeddedResource Include="Assets\SimpleMultiplicationFixed.cs" />
   </ItemGroup>

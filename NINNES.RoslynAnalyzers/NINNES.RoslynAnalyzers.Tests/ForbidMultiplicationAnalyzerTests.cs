@@ -59,6 +59,13 @@ namespace NINNES.RoslynAnalyzers.Tests {
       VerifyCSharpFix(badProgram, fixedProgram);
     }
 
+    [TestMethod]
+    public void MultiplicationDiagnosticsWithVariablesMustBeFixable() {
+      var badProgram = TestAssetsReader.ReadTestAsset("MultiplicationsWithVariables.cs");
+      var fixedProgram = TestAssetsReader.ReadTestAsset("MultiplicationsWithVariablesFixed.cs");
+      VerifyCSharpFix(badProgram, fixedProgram);
+    }
+
     protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() {
       return new ForbidMultiplicationAnalyzer();
     }

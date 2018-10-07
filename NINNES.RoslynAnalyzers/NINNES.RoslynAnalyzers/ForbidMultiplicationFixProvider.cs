@@ -18,6 +18,8 @@ namespace NINNES.RoslynAnalyzers {
   public class ForbidMultiplicationFixProvider : CodeFixProvider {
     public const string Title = "Invoke NESMath.Multiply instead";
 
+    private const string ShimsNamespace = "NINNES.Platform.Shims";
+
     public override ImmutableArray<string> FixableDiagnosticIds =>
       ImmutableArray.Create(ForbidMultiplicationAnalyzer.DiagnosticId);
 
@@ -34,7 +36,7 @@ namespace NINNES.RoslynAnalyzers {
 
       var node = docRoot.FindNode(diagnosticSpan);
       if (node.IsKind(SyntaxKind.MultiplyExpression)) {
-        fixFunc = async (ct) => await FixMultiplyExpressionAsync(ct);
+        fixFunc = async (ct) => await FixMultiplyExpressionAsync(ct, context.Document, node);
       } else if (node.IsKind(SyntaxKind.MultiplyAssignmentExpression)) {
         fixFunc = async (ct) => await FixMultiplyAssignmentExpressionAsync(ct, context.Document, node);
       } else {
@@ -50,16 +52,42 @@ namespace NINNES.RoslynAnalyzers {
       context.RegisterCodeFix(codeFix, diagnostic);
     }
 
-    private Task<Document> FixMultiplyExpressionAsync(CancellationToken cancelToken) {
-      throw new NotImplementedException();
+    private async Task<Document> FixMultiplyExpressionAsync(CancellationToken cancelToken, Document document, SyntaxNode node) {
+      var multiplicationSyntax = (BinaryExpressionSyntax)node;
+      var rightOperand = multiplicationSyntax.Right;
+      var leftOperand = multiplicationSyntax.Left;
+
+      // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
+      // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
+      var nesMath = SyntaxFactory.IdentifierName("NESMath");
+      var multiply = SyntaxFactory.IdentifierName("Multiply");
+      var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
+
+      var leftArgument = SyntaxFactory.Argument(leftOperand);
+      var rightArgument = SyntaxFactory.Argument(rightOperand);
+      var argumentsList = SyntaxFactory.SeparatedList(new [] { leftArgument, rightArgument });
+      var invocation = SyntaxFactory.InvocationExpression(multiplyAccess, SyntaxFactory.ArgumentList(argumentsList));
+
+      var trackingAnnotation = new SyntaxAnnotation();
+      invocation = invocation.WithAdditionalAnnotations(trackingAnnotation);
+
+      var syntaxRoot = await document.GetSyntaxRootAsync();
+      var modifiedRoot = syntaxRoot.ReplaceNode(node, invocation);
+      var modifiedNode = modifiedRoot.GetAnnotatedNodes(trackingAnnotation).First();
+
+      var modifiedDocument = document.WithSyntaxRoot(modifiedRoot);
+      modifiedDocument = await AddUsingStatementAsync(cancelToken, modifiedDocument);
+
+      return modifiedDocument;
     }
 
     private async Task<Document> FixMultiplyAssignmentExpressionAsync(CancellationToken cancelToken, Document document, SyntaxNode node) {
+      var mAssignmentSyntax = (AssignmentExpressionSyntax)node;
+      var multiplyOperand = mAssignmentSyntax.Right;
+
       var variableNode = node.ChildNodes().First(child => child.IsKind(SyntaxKind.IdentifierName));
       var variableName = variableNode.ChildTokens().First().Text;
-      var valueNode = node.ChildNodes().First(child => child.IsKind(SyntaxKind.NumericLiteralExpression));
-      var valueText = valueNode.ChildTokens().First().Text;
-      var valueInteger = int.Parse(valueText);
+      var valueNode = node.ChildNodes().Skip(1).First();
 
       // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
       // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
@@ -68,9 +96,7 @@ namespace NINNES.RoslynAnalyzers {
       var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
 
       var variableArgument = SyntaxFactory.Argument(SyntaxFactory.IdentifierName(variableName));
-      var valueToken = SyntaxFactory.Literal(valueInteger);
-      var valueSyntax = SyntaxFactory.LiteralExpression(SyntaxKind.NumericLiteralExpression, valueToken);
-      var valueArgument = SyntaxFactory.Argument(valueSyntax);
+      var valueArgument = SyntaxFactory.Argument(multiplyOperand);
       var argumentsList = SyntaxFactory.SeparatedList(new[] { variableArgument, valueArgument });
       var invocation = SyntaxFactory.InvocationExpression(multiplyAccess, SyntaxFactory.ArgumentList(argumentsList));
       var assignment = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, SyntaxFactory.IdentifierName(variableName), invocation);
@@ -93,11 +119,14 @@ namespace NINNES.RoslynAnalyzers {
     private async Task<Document> AddUsingStatementAsync(CancellationToken cancelToken, Document document) {
       var editor = await DocumentEditor.CreateAsync(document, cancelToken);
       var syntaxRoot = await document.GetSyntaxRootAsync();
-      var usingStatement = SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("NINNES.Platform.Shims"));
-
       var compilationUnit = (CompilationUnitSyntax)syntaxRoot;
-      var newCompilationUnit = compilationUnit.AddUsings(usingStatement);
 
+      if (compilationUnit.Usings.Any(usDir => usDir.Name.GetText().ToString() == ShimsNamespace)) {
+        return document;
+      }
+
+      var usingStatement = SyntaxFactory.UsingDirective(SyntaxFactory.ParseName(ShimsNamespace));
+      var newCompilationUnit = compilationUnit.AddUsings(usingStatement);
       var modifiedDocument = document.WithSyntaxRoot(newCompilationUnit);
       return modifiedDocument;
     }
