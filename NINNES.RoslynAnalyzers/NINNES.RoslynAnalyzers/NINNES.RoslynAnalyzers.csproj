@@ -19,6 +19,7 @@
     <Copyright>Copyright 2018 Germán Valencia</Copyright>
     <PackageTags>NINNES</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <Version>0.1.1</Version>
   </PropertyGroup>
    
   <ItemGroup>

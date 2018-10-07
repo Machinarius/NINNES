@@ -10,15 +10,14 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
-using Microsoft.CodeAnalysis.Formatting;
-using Microsoft.CodeAnalysis.Simplification;
 
 namespace NINNES.RoslynAnalyzers {
   [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ForbidMultiplicationFixProvider)), Shared]
   public class ForbidMultiplicationFixProvider : CodeFixProvider {
-    public const string Title = "Invoke NESMath.Multiply instead";
-
     private const string ShimsNamespace = "NINNES.Platform.Shims";
+
+    private static readonly LocalizableString Title =
+      new LocalizableResourceString(nameof(Resources.InvokeNESMathMultiplyInstead), Resources.ResourceManager, typeof(Resources));
 
     public override ImmutableArray<string> FixableDiagnosticIds =>
       ImmutableArray.Create(ForbidMultiplicationAnalyzer.DiagnosticId);
@@ -37,16 +36,18 @@ namespace NINNES.RoslynAnalyzers {
       var node = docRoot.FindNode(diagnosticSpan);
       if (node.IsKind(SyntaxKind.MultiplyExpression)) {
         fixFunc = async (ct) => await FixMultiplyExpressionAsync(ct, context.Document, node);
-      } else if (node.IsKind(SyntaxKind.MultiplyAssignmentExpression)) {
+      }
+      else if (node.IsKind(SyntaxKind.MultiplyAssignmentExpression)) {
         fixFunc = async (ct) => await FixMultiplyAssignmentExpressionAsync(ct, context.Document, node);
-      } else {
+      }
+      else {
         throw new InvalidOperationException("Cannot code fix an invalid diagnostic");
       }
 
       var codeFix = CodeAction.Create(
-        title: Title,
+        title: Title.ToString(),
         createChangedDocument: fixFunc,
-        equivalenceKey: Title
+        equivalenceKey: nameof(Resources.InvokeNESMathMultiplyInstead)
       );
 
       context.RegisterCodeFix(codeFix, diagnostic);
@@ -82,7 +83,7 @@ namespace NINNES.RoslynAnalyzers {
       var variableIdentifier = SyntaxFactory.IdentifierName(variableName);
       var invocation = FabricateMultiplyInvocation(variableIdentifier, multiplyOperand);
       var assignment = SyntaxFactory.AssignmentExpression(SyntaxKind.SimpleAssignmentExpression, variableIdentifier, invocation);
-      
+
       var trackingAnnotation = new SyntaxAnnotation();
       assignment = assignment
         .WithAdditionalAnnotations(trackingAnnotation)
@@ -104,7 +105,7 @@ namespace NINNES.RoslynAnalyzers {
       var nesMath = SyntaxFactory.IdentifierName("NESMath");
       var multiply = SyntaxFactory.IdentifierName("Multiply");
       var multiplyAccess = SyntaxFactory.MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression, nesMath, multiply);
-      
+
       var leftArgument = SyntaxFactory.Argument(leftExpression);
       var rightArgument = SyntaxFactory.Argument(rightExpression);
       var argumentsList = SyntaxFactory.SeparatedList(new[] { leftArgument, rightArgument });
