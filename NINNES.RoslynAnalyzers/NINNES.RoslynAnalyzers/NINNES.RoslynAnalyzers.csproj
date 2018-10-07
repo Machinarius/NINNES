@@ -15,7 +15,7 @@
     <RepositoryUrl>https://github.com/Machinarius/NINNES</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Roslyn Analyzers for the NINNES project</Description>
-    <PackageReleaseNotes>Initial dummy release: An analyzer that fails the build on multiplication calls</PackageReleaseNotes>
+    <PackageReleaseNotes>Initial dummy release: An analyzer that fails the build on multiplication calls, with a code fix provider</PackageReleaseNotes>
     <Copyright>Copyright 2018 Germán Valencia</Copyright>
     <PackageTags>NINNES</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -35,10 +35,6 @@
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\NINNES.Platform\NINNES.Platform.csproj" />
   </ItemGroup>
 
 </Project>
