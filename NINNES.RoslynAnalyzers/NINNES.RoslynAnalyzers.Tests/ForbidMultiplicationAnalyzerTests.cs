@@ -23,7 +23,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
         Message = "Use bit-shifting multiplication or NESMath.Multiply to multiply two numbers with an algorithm that can be run on the NES CPU",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {
-          new DiagnosticResultLocation("Test0.cs", 4, 18)
+          new DiagnosticResultLocation("Test0.cs", 7, 24)
         }
       };
 
@@ -38,7 +38,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
         Message = "Use bit-shifting multiplication or NESMath.Multiply to multiply two numbers with an algorithm that can be run on the NES CPU",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {
-          new DiagnosticResultLocation("Test0.cs", 5, 7)
+          new DiagnosticResultLocation("Test0.cs", 8, 13)
         }                                                              
       };
 
