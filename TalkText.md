@@ -60,8 +60,64 @@ When the CPU is running it is constantly running a Fetch, Decode, Execute cycle 
 
 Fetch refers to bringing in the next instruction for execution, storing it in the Instruction Register and increasing the Program Counter Register so the next cycle brings in the next instruction. Decode refers to priming the circuitry for the execution of said instruction and Execute refers to actually letting electricity run to the corresponding circuitry for the instruction.
 #### The importance of Instructions
-One could happily assume that any CPU providing instructions for basic math and conditional execution can eventually perform any task at a reasonable performance, alas, implementing complex algorithms using basic instructions (Referred to as Software Implementation) can yield extremely slow performance due to the many instructions required. CPU manufacturers regularly take a look at industry standards and publish newer CPUs with specific instructions that are implemented using dedicated electrical circuits (Referred to as Hardware Implementation) that complete the job much, much faster than generic circuits for the standard instructions.
+One could happily assume that any CPU providing instructions for basic math and conditional execution can eventually perform any task, alas, implementing complex algorithms using basic instructions (Referred to as Software Implementation) can yield extremely slow performance due to the many instructions required. CPU manufacturers regularly take a look at industry standards and publish newer CPUs with specific instructions that are implemented using dedicated electrical circuits (Referred to as Hardware Implementation) that complete the job much, much faster than generic circuits for the standard instructions.
 
-A common example of the effect of this is early 2000 CPUs struggling to play back video with Software, compared to modern CPUs that barely have to raise their clock speed and power consumption values to do so, because most common algorithms for audio and video handling are now implemented in hardware.
+A common example of the effect of this is early 2000's CPUs struggling to play back video with Software, compared to modern CPUs that barely have to raise their clock speed and power consumption values to do so because most common algorithms for audio and video handling are now implemented in dedicated circuits in hardware, such that merely the electric flow is enough to decode video successfully.
 
+## From Visual Studio to F5, dotNet behind the curtains.
+In order to more easily exemplify what happens between you pressing F5 and watching your creation come to life, an analogy to a classic play will be enacted.
+### C#, the Language of the Script
+The language we all know and love.
+### BCL, the Acting Academy
+The BCL -Base Class Library- is the basic set of classes and methods that Microsoft publishes with every dotNet release. This includes the built-in types like int, Integer, string, byte, Byte and methods ranging from Console.WriteLine to Task.Run and the P/Invoke infrastructure. 
+
+Common extensions to the BCL range from essentially Win32 API wrappers like Windows Forms to wholly dotNet APIs based on Win32 calls like Windows Presentation Foundation and Windows Communication Foundation.
+### Roslyn, Costumer Extraordinaire
+The dotNet Compiler Platform, or Roslyn as the original codename and the community calls it, was born as a replacement for the ancient C# compiler that was originally written in C++ both as a way to show how the language had been evolving and "strengthening the ecosystem and becoming the best tooled language on the planet", as Mads Torgensen puts it.
+
+Roslyn is not only a compiler though, it is an SDK (that Microsoft dogfoods on for Visual Studio on its 3 different flavors) to implement functionality around the C# and Visual Basic code parsing, analysis and compilation processes, with the express purpose of letting people hook into that information and, if so desired, influence it and modify it to suit diverse needs, even if that means strengthening the value proposition for Microsoft's competitors in the C# tooling space.
+
+These are some of the ways Microsoft and the community uses Roslyn:
+- Syntax Highlighting (on Visual Studio and beyond)
+- Code Refactoring
+- Code Security Analysis
+- Code Quality Analysis
+- Code Generation
+### MSIL, the Script
+One of the original goals of dotNet was giving Microsoft a hardware platform-neutral and managed way to program Windows, specially for servers of different hardware architectures. To that end, an intermediate language was created as the language of choice for dotNet execution to be translated into native CPU code with a JIT -Just In Time- model.
+### MSBuild, the Playwright
+The build system of choice for standard dotNet projects is MSBuild, a tool that reads project files (.csproj, .vbproj and so on) and invokes Roslyn and other associated tools on the input files to finally produce the MSIL .exe file.
+### RyuJIT, the Director
+RyuJIT falls in the Just In Time model of dotNet execution as the translator from MSIL to native CPU code.
+### CLI, the Stage
+The Common Language Infrastructure is the open ECMA standard that any platform that wishes to run dotNet code must implement, with CLR -Common Language Runtime- being Microsoft's official implementation. The CLI dictates how MSIL code must be run, including how a JIT (RyuJIT in the CLR) is to be used. 
+### DLR, the Improv Master
+The Dynamic Language Runtime is a relatively new addition to the dotNet ensemble, primarily to enable support of dynamic languages like Python and Ruby to be compiled into MSIL and hence executable wherever a capable CLI implementation exists.
+### dotNet Native, the Cameraman
+dotNet native ¨records¨ RyuJIT in action and generates a completely native (yet still BCL and CLI dependent) binary for any target CPU architecture. This is usually done for extremely performance-sensitive workloads, specially so in the case of those not tolerant of startup delays.
+
+# From Visual Studio to the NES
+A tale of loss, woe and unexpected viability.
+## The limits of the NES 
+The NES runs on a MOS6502 8-bit CPU implementation from Ricoh, albeit without the decimal/floating point mode enabled. This brings forth several limitations:
+- No floating point calculations
+- No multiplication or division implemented in hardware
+- No Operating System
+- Limited memory access capabilities
+## Removing dotNet from C#, 8 bits at a time
+To be able to fit a C# program inside the NES some concessions must be made
+- No Garbage Collection
+- No Threading
+- No Operating System services
+- No DLR
+- No Reflection
+- No Sockets/Communication
+- And much more NOs!
+## MSIL and 8-bit CPUs don't mix
+Bringing C# compilation output to a MOS6502-compatible format may entail
+- Assembler compilation from Roslyn ASTs with a C# Transpiler
+- MSIL recompilation with LLILC
+- Researching the work of the .Net Micro Framework
+## Roslyn is NOT the enemy!
+Demo Time.
 
