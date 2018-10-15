@@ -1,7 +1,7 @@
 # NINNES
 NINNES Is Not a NES Emulator System
 ## Description
-Roslyn is the unsung hero of the .Net world behind most, if not all, C# and Visual Basic compilation processes. This talk aims to shine a light in the backstage of .Net and, especifically on Roslyn as the fundamental tool of every single .Net developer. How it understands code, how it compiles said code into a CLR-compatible binary, and more appliccably to the real world, how all of this can be customized for specific use cases to build Domain-Specific Languages based on C# with an imperative API. With a small focus on NES game programming, because... Why not?.
+Roslyn is the unsung hero of the .Net world behind most, if not all, C# and Visual Basic compilation processes. This talk aims to shine a light in the backstage of dotNet and, especifically on Roslyn as the fundamental tool of every single .Net developer. How it understands code, how it compiles said code into a CLR-compatible binary, and more appliccably to the real world, how all of this can be customized for specific use cases to build Domain-Specific Languages based on C# with an imperative API. With a small focus on NES game programming, because... Why not?.
 ## About the Project
 ### What?
 The NINNES project has the ultimate goal of allowing C# programmers to hit F5 on Visual Studio and see their code running on a NES emulator of their choice (not provided by the project itself) and optionally deploy to NES flash carts for execution on real hardware.
@@ -10,14 +10,12 @@ To ground such a lofty ideal the project is structured with 3 pillars: C# Code r
 
 ### How?
 ####  C# Code restrictions
-In order to program any hardware at all the first step is to know and comply with the restrictions of said hardware's ISA (Instruction Set Architecture), memory and I/O capabilities. To ease the casual C# programmer into the limitations (particularly ISA) of the NES CPU the Roslyn C# compiler must be told to invalidate correct C# code that would make no sense or be impossible to implement in hardware within the limits of said CPU, thus a collection of Roslyn analyzers and code-fixes must be crafted to tailor the language. Visual Basic and other .Net-compatible languages are outside of the scope of this project.
-
-Spoiler alert: Almost all of the System namespace is lost.
+In order to program any hardware at all the first step is to know and comply with the restrictions of said hardware's ISA (Instruction Set Architecture), memory and I/O capabilities. To ease the casual C# programmer into the limitations (particularly ISA) of the NES CPU the Roslyn C# compiler must be told to invalidate correct C# code that would make no sense or be impossible to implement in hardware within the limits of said CPU, thus a collection of Roslyn analyzers and code-fixes must be crafted to tailor the language. Visual Basic and other dotNet-compatible languages are outside of the scope of this project.
 
 This pillar is the subject of the talk.
 
-#### NES dotNet SDK/Platform
-The NES has it's own particular way of doing things which must be mapped to the .Net realm, so a NuGet package providing a .Net-friendly API to elements like the CPU instructions, the PPU (Picture Processing Unit) and the APU (Audio Processing Unit) of the NES is essential to the success of the main goal. 
+#### NES dotNet Shims Platform
+The NES has its own particular way of doing things which must be mapped to the dotNet realm so a NuGet package providing a dotNet-friendly API to elements like the CPU instructions, the PPU (Picture Processing Unit) and the APU (Audio Processing Unit) of the NES is essential to the success of the main goal. 
 
 A mechanism to run the C# code on the standard desktop CLR with display, audio and input capabilities, similar to how XNA used to enable simple game programming, must also be included in the NuGet package so the code may be easily debugged. Direct2D, OpenGL and WebGL with WebAssembly are possible backend targets for this.
 
@@ -30,11 +28,8 @@ Actually outputting a valid ROM file that may run on the NES hardware from the C
 - Researching the work of the .Net Micro Framework team
 
 ### Why?
-The main objective of this project is to showcase Roslyn's flexibility for custom scenarios with an extreme case study relative to the expected use cases on the usual day to day development, so as to produce a library of Roslyn customization examples covering a wide range of scenarios. 
-
-And for 1337 internet points, of course.
-
-## Into the Machine
+ 
+## Into the Machine [Deprecated Section]
 ### CPUs and other Arcane things
 #### Operators
 The CPU is a machine designed to take sets of bytes and transform them. By using electrical mechanisms designed to operate on incoming bytes with arithmetic and logical procedures the CPU is able to perform the job the software intends for it.
@@ -69,7 +64,7 @@ In order to more easily exemplify what happens between you pressing F5 and watch
 ### C#, the Language of the Script
 The language we all know and love.
 ### BCL, the Acting Academy
-The BCL -Base Class Library- is the basic set of classes and methods that Microsoft publishes with every dotNet release. This includes the built-in types like int, Integer, string, byte, Byte and methods ranging from Console.WriteLine to Task.Run and the P/Invoke infrastructure. 
+The Base Class Library is the basic set of classes and methods that Microsoft publishes with every dotNet release. This includes the built-in types like int, Integer, string, byte, Byte and methods ranging from Console.WriteLine to Task.Run and the P/Invoke infrastructure. 
 
 Common extensions to the BCL range from essentially Win32 API wrappers like Windows Forms to wholly dotNet APIs based on Win32 calls like Windows Presentation Foundation and Windows Communication Foundation.
 ### Roslyn, Costumer Extraordinaire
@@ -91,10 +86,10 @@ The build system of choice for standard dotNet projects is MSBuild, a tool that 
 RyuJIT falls in the Just In Time model of dotNet execution as the translator from MSIL to native CPU code.
 ### CLI, the Stage
 The Common Language Infrastructure is the open ECMA standard that any platform that wishes to run dotNet code must implement, with CLR -Common Language Runtime- being Microsoft's official implementation. The CLI dictates how MSIL code must be run, including how a JIT (RyuJIT in the CLR) is to be used. 
-### DLR, the Improv Master
-The Dynamic Language Runtime is a relatively new addition to the dotNet ensemble, primarily to enable support of dynamic languages like Python and Ruby to be compiled into MSIL and hence executable wherever a capable CLI implementation exists.
+### DLR, the Improv Guide
+The Dynamic Language Runtime is a relatively new addition to the dotNet ensemble, primarily to enable support of dynamic languages like Python, Ruby, and Dynamically-Typed C# to be compiled into MSIL and hence executable wherever a capable CLI implementation exists.
 ### dotNet Native, the Cameraman
-dotNet native ¨records¨ RyuJIT in action and generates a completely native (yet still BCL and CLI dependent) binary for any target CPU architecture. This is usually done for extremely performance-sensitive workloads, specially so in the case of those not tolerant of startup delays.
+dotNet native ¨records¨ RyuJIT in action and generates a completely native (yet still BCL and CLI dependent) binary for any target CPU architecture. This is usually done for extremely performance-sensitive workloads, specially so in the case of those sensitive to startup delays.
 
 # From Visual Studio to the NES
 A tale of loss, woe and unexpected viability.
@@ -116,8 +111,35 @@ To be able to fit a C# program inside the NES some concessions must be made
 ## MSIL and 8-bit CPUs don't mix
 Bringing C# compilation output to a MOS6502-compatible format may entail
 - Assembler compilation from Roslyn ASTs with a C# Transpiler
+	- Custom script or MSBuild task based on Roslyn analysis
 - MSIL recompilation with LLILC
 - Researching the work of the .Net Micro Framework
-## Roslyn is NOT the enemy!
-Demo Time.
+# Roslyn is a friend, not the enemy
+## Compiler basics - What is code?
+Code is text that is formatted in a specific way, with defined syntax constructs to instruct the machine (via the compiler) to perform the tasks the programmer desires, and is usually read and executed exactly as English: from top to bottom and left to right. This all conforms to the usual expectations of us programmers, except it's far, far away from how compilers understand code.
+## Compiler basics - Code Sample
+```
+x=1
+y=2
+3*(x+y)
+```
+Source for this example: https://stackoverflow.com/a/9864571
+## Compiler basics - Parse Tree
+https://i.stack.imgur.com/SyonV.png
+
+Compilers do read code once as we programmers do, but they quickly build a wholly different model from the text representing the original text as a tree with the outer leaves being simple lexemes (sequences of characters that make sense in the syntax of the language) and nodes with higher complexity semantics as you close in on the root. This construction primarily obeys performance and simplicity reasons, as raw text manipulation and re-interpretation are expensive and complex operations when repeated enough.
+## Compiler basics - Abstract Syntax Tree
+https://i.stack.imgur.com/dhd3v.png
+
+Further down the pipeline compilers take the parse tree and discard semantically meaningless information like whitespace characters to build the ultimate representation of code: The Abstract Syntax Tree. This tree contains the essential information (and little more) that is required to build further models and compilation.
+
+Roslyn gives us the capability to inject code to reason about and manipulate the AST.
+## Roslyn Code Model
+Roslyn has always had two extremely important non-functional requirement: Speed and Memory Efficiency. As the main use case for Roslyn is reasoning about code that is being written live to serve as the foundation for IDE tooling (With Visual Studio at the forefront, but not the only citizen). Failing to comply with these tenets would lead to very unpleasant developer experiences.
+
+It stands to reason then to implement the basic  code representation (AST) model with a focus on re-usability and immutability to make multi-threading easier, It is very important to have this in mind, as it will affect the API and programming model significantly.
+## Roslyn Basics - Code Diagnostics
+One of the entry-points of the Roslyn API for code modification is the Code Diagnostics API. This API exposes a mechanism to integrate into the usual code analysis flows that IDEs and other tooling ask of Roslyn in order to augment them with additional custom warnings, recommendations and refactorings that are reflected in the IDE.
+
+# Roslyn Basics - Demo
 
