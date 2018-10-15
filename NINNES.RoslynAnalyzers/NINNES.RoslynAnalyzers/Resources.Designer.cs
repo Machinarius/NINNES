@@ -61,6 +61,60 @@ namespace NINNES.RoslynAnalyzers {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do not invoke methods that return Double.
+        /// </summary>
+        internal static string DoubleMethodsDescription {
+            get {
+                return ResourceManager.GetString("DoubleMethodsDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do not invoke methods that return Double.
+        /// </summary>
+        internal static string DoubleMethodsMessage {
+            get {
+                return ResourceManager.GetString("DoubleMethodsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Methods that return Double are not allowed.
+        /// </summary>
+        internal static string DoubleMethodsTitle {
+            get {
+                return ResourceManager.GetString("DoubleMethodsTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rework your code to not depend on float nor double.
+        /// </summary>
+        internal static string FloatForbiddenDescription {
+            get {
+                return ResourceManager.GetString("FloatForbiddenDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The NES CPU cannot operate on decimal values.
+        /// </summary>
+        internal static string FloatForbiddenMessage {
+            get {
+                return ResourceManager.GetString("FloatForbiddenMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The NES CPU cannot operate on decimal values.
+        /// </summary>
+        internal static string FloatForbiddenTitle {
+            get {
+                return ResourceManager.GetString("FloatForbiddenTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invoke NESMath.Multiply Instead.
         /// </summary>
         internal static string InvokeNESMathMultiplyInstead {

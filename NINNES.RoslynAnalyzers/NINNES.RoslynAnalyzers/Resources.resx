@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DoubleMethodsDescription" xml:space="preserve">
+    <value>Do not invoke methods that return Double</value>
+  </data>
+  <data name="DoubleMethodsMessage" xml:space="preserve">
+    <value>Do not invoke methods that return Double</value>
+  </data>
+  <data name="DoubleMethodsTitle" xml:space="preserve">
+    <value>Methods that return Double are not allowed</value>
+  </data>
+  <data name="FloatForbiddenDescription" xml:space="preserve">
+    <value>Rework your code to not depend on float nor double</value>
+  </data>
+  <data name="FloatForbiddenMessage" xml:space="preserve">
+    <value>The NES CPU cannot operate on decimal values</value>
+  </data>
+  <data name="FloatForbiddenTitle" xml:space="preserve">
+    <value>The NES CPU cannot operate on decimal values</value>
+  </data>
   <data name="InvokeNESMathMultiplyInstead" xml:space="preserve">
     <value>Invoke NESMath.Multiply Instead</value>
   </data>

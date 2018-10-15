@@ -8,7 +8,6 @@ using NINNES.RoslynAnalyzers.Tests.Helpers;
 namespace NINNES.RoslynAnalyzers.Tests {
   [TestClass]
   public class ForbidMultiplicationAnalyzerTests : CodeFixVerifier {
-
     [TestMethod]
     public void CodeWithoutMultiplicationsMayNotTriggerADiagnostic() {
       var testProgram = "";
