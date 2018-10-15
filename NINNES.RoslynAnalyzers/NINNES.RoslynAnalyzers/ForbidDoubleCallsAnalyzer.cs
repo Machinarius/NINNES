@@ -28,10 +28,11 @@ namespace NINNES.RoslynAnalyzers {
     }
 
     private void OnMethodInvocationFound(SyntaxNodeAnalysisContext context) {
+      // More info: https://johnkoerner.com/csharp/working-with-types-in-your-analyzer/
       var invExpr = (InvocationExpressionSyntax) context.Node;
       var methodInfo = (IMethodSymbol)context.SemanticModel.GetSymbolInfo(invExpr.Expression).Symbol;
       var returnType = methodInfo.ReturnType;
-      if (returnType.Name != "Double") {
+      if (returnType.SpecialType != SpecialType.System_Double) {
         return;
       }
       
