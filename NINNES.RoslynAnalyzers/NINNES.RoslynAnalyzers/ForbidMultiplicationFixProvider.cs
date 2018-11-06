@@ -14,6 +14,7 @@ using Microsoft.CodeAnalysis.Editing;
 namespace NINNES.RoslynAnalyzers {
   [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(ForbidMultiplicationFixProvider)), Shared]
   public class ForbidMultiplicationFixProvider : CodeFixProvider {
+    #region Boilerplate
     private const string ShimsNamespace = "NINNES.Platform.Shims";
 
     private static readonly LocalizableString Title =
@@ -25,7 +26,9 @@ namespace NINNES.RoslynAnalyzers {
     public override FixAllProvider GetFixAllProvider() {
       return WellKnownFixAllProviders.BatchFixer;
     }
+    #endregion
 
+    #region Configuration
     public override async Task RegisterCodeFixesAsync(CodeFixContext context) {
       var docRoot = await context.Document.GetSyntaxRootAsync(context.CancellationToken);
       var diagnostic = context.Diagnostics.First();
@@ -36,11 +39,9 @@ namespace NINNES.RoslynAnalyzers {
       var node = docRoot.FindNode(diagnosticSpan);
       if (node.IsKind(SyntaxKind.MultiplyExpression)) {
         fixFunc = async (ct) => await FixMultiplyExpressionAsync(ct, context.Document, node);
-      }
-      else if (node.IsKind(SyntaxKind.MultiplyAssignmentExpression)) {
+      } else if (node.IsKind(SyntaxKind.MultiplyAssignmentExpression)) {
         fixFunc = async (ct) => await FixMultiplyAssignmentExpressionAsync(ct, context.Document, node);
-      }
-      else {
+      } else {
         throw new InvalidOperationException("Cannot code fix an invalid diagnostic");
       }
 
@@ -52,7 +53,9 @@ namespace NINNES.RoslynAnalyzers {
 
       context.RegisterCodeFix(codeFix, diagnostic);
     }
+    #endregion
 
+    #region Code Fix Code
     private async Task<Document> FixMultiplyExpressionAsync(CancellationToken cancelToken, Document document, SyntaxNode node) {
       var multiplicationSyntax = (BinaryExpressionSyntax)node;
       var rightOperand = multiplicationSyntax.Right;
@@ -98,7 +101,9 @@ namespace NINNES.RoslynAnalyzers {
 
       return modifiedDocument;
     }
+    #endregion
 
+    #region Utility
     private InvocationExpressionSyntax FabricateMultiplyInvocation(ExpressionSyntax leftExpression, ExpressionSyntax rightExpression) {
       // https://johnkoerner.com/csharp/creating-code-using-the-syntax-factory/
       // https://joshvarty.com/2015/08/18/learn-roslyn-now-part-12-the-documenteditor/
@@ -128,5 +133,6 @@ namespace NINNES.RoslynAnalyzers {
       var modifiedDocument = document.WithSyntaxRoot(newCompilationUnit);
       return modifiedDocument;
     }
+    #endregion
   }
 }

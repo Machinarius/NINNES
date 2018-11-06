@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidDoubleCallsAnalyzer : DiagnosticAnalyzer {
+    #region Boilerplate
     public const string DiagnosticId = "NESDoesNotSupportDecimmalCalls";
 
     private static readonly LocalizableString Title =
@@ -22,6 +23,7 @@ namespace NINNES.RoslynAnalyzers {
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
       ImmutableArray.Create(DoubleMethodInvocationsForbiddenRule);
+    #endregion
 
     public override void Initialize(AnalysisContext context) {
       context.RegisterSyntaxNodeAction(OnMethodInvocationFound, SyntaxKind.InvocationExpression);

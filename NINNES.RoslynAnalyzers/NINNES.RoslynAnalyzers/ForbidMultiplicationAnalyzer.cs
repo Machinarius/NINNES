@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidMultiplicationAnalyzer : DiagnosticAnalyzer {
+    #region Boilerplate
     public const string DiagnosticId = "NESMultiplicationForbidden";
 
     private static readonly LocalizableString Title =
@@ -19,18 +20,18 @@ namespace NINNES.RoslynAnalyzers {
 
     private static readonly DiagnosticDescriptor MultiplicationForbiddenRule =
       new DiagnosticDescriptor(DiagnosticId, Title, Message, AnalyzerCategories.NESCPULimitations, DiagnosticSeverity.Error, true, Description);
-
-    #region Overrides of DiagnosticAnalyzer
-
+    #endregion
+    
+    #region Configuration
     public override void Initialize(AnalysisContext context) {
       context.RegisterSyntaxNodeAction(PerformNodeAnalysis, SyntaxKind.MultiplyExpression, SyntaxKind.MultiplyAssignmentExpression);
     }
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
       ImmutableArray.Create(MultiplicationForbiddenRule);
-
     #endregion
 
+    #region Diagnostic Creation
     private void PerformNodeAnalysis(SyntaxNodeAnalysisContext context) {
       var node = context.Node;
       switch (node.Kind()) {
@@ -54,5 +55,6 @@ namespace NINNES.RoslynAnalyzers {
       var errorDiagnostic = Diagnostic.Create(MultiplicationForbiddenRule, node.GetLocation());
       context.ReportDiagnostic(errorDiagnostic);
     }
+    #endregion
   }
 }

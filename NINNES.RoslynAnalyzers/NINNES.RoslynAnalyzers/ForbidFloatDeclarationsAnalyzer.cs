@@ -7,6 +7,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidFloatDeclarationsAnalyzer : DiagnosticAnalyzer {
+    #region Boilerplate
     public const string DiagnosticId = "NESDoesNotSupportDecimals";
 
     private static readonly LocalizableString Title =
@@ -26,6 +27,7 @@ namespace NINNES.RoslynAnalyzers {
       context.RegisterSyntaxNodeAction(OnPredefinedTypeNodeFound, SyntaxKind.PredefinedType);
       context.RegisterSyntaxNodeAction(OnNumericLiteralFound, SyntaxKind.NumericLiteralExpression);
     }
+    #endregion
 
     private void OnNumericLiteralFound(SyntaxNodeAnalysisContext context) {
       var errorDiagnostic = Diagnostic.Create(FloatForbiddenRule, context.Node.GetLocation());
