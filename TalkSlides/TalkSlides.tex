@@ -60,27 +60,12 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{C\# Code Tailoring}
-    \begin{enumerate}
-        \item Remove invalid instructions (and substitute them where possible)
-        \item Assist the programmer with keeping his C\# code compatible with the NES CPU
-        \item Invalidate code that is otherwise perfectly fine
-    \end{enumerate}
-\end{frame}
-
 \begin{frame}{NES dotNet Shims Platform}
     \begin{figure}
         \centering
         \includegraphics[width=\textwidth]{img/bridge.jpg}
         \caption{Bridging the gap to the unknown \\ \tiny{\href{Photo by Nikolai Ulltang from Pexels}{https://www.pexels.com/photo/architecture-bridge-fog-ocean-285283/}}}
     \end{figure}
-\end{frame}
-
-\begin{frame}{NES dotNet Shims Platform}
-    \begin{enumerate}
-        \item NuGet Package exposing dotNet-friendly abstractions over the NES CPU, APU and PPU
-        \item F5 into a CLR-based rendering of the code, XNA-style
-    \end{enumerate}
 \end{frame}
 
 \begin{frame}{C\# Compilation to the NES CPU}
@@ -92,13 +77,15 @@
 \end{frame}
 
 \begin{frame}{Why?}
-The main objective of this project is to showcase Roslyn's flexibility for custom scenarios with an extreme case study relative to the expected use cases on the usual day to day development, so as to produce a library of Roslyn customization examples covering a wide range of scenarios. 
-
-And for 1337 internet points, of course.
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/1337.png}
+        \caption{Showcasing dotNet's flexibility \\ \tiny{And 1337 internet points}}
+    \end{figure}
 \end{frame}
 
 \section{From Visual Studio to F5, dotNet behind the curtains}
-\begin{frame}{The show begins}
+\begin{frame}{The Show Begins}
     \begin{figure}
         \centering
         \includegraphics[width=250pt]{img/curtains.jpg}
@@ -106,70 +93,68 @@ And for 1337 internet points, of course.
     \end{figure}
 \end{frame}
 
-\begin{frame}{C\#, the Idiom and Culture}
-    The programming language we all know and love.
+\begin{frame}{C\#, the Typewriter}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/Typewriter.jpg}
+        \caption{Just another day in Heaven \\ \tiny{\href{Photo by rawpixel.com from Pexels}{https://www.pexels.com/photo/person-using-typewriter-on-white-surfac-886470/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{BCL, the Acting Academy}
-    \begin{itemize} 
-        \item Base Class Library
-        \item Basically, the System namespace and basic types
-        \item Extended with Operating System service wrappers like Windows Forms and WPF via P/Invoke
-    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/Books.jpg}
+        \caption{Theory and Practice of the OS and CPU \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/pile-of-books-159866/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Roslyn, Costumer Extraordinaire}
-    \begin{itemize}
-        \item ".Net Compiler Platform", excepts everybody calls it Roslyn per the project Codename
-        \item Developed as a Tour de Force to show the maturity of C\# and dotNet
-        \item "Strengthening the ecosystem and becoming the best tooled language on the planet" - Mads Torgensen, C\# designer
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{Roslyn, Costumer Extraordinaire}
-    \begin{itemize}
-        \item Not only a compiler, a dotNet Compilation SDK
-        \item Exposes multiple services to external code, allowing for extension and modification
-        \item Used by Visual Studio for Windows, Mac and VS Code/Sublime Text/Atom... (Via OmniSharp)
-    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/TailorSuit.jpg}
+        \caption{Making sure Actors are properly dressed \\ \tiny{\href{Photo by rawpixel.com from Pexels}{https://www.pexels.com/photo/tailor-measuring-man-s-chest-1282309/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{MSIL, the Script}
-    \begin{itemize}
-        \item Provides dotNet with ABI/Platform independence
-        \item Machine-agnostic, Portable language
-        \item JIT-ed into machine code
-    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/PaperOnTypewriter.jpg}
+        \caption{Business Value, one OpCode at a time \\ \tiny{\href{Photo by rawpixel.com from Pexels}{https://www.pexels.com/photo/paper-attached-to-typewriter-921780/}}}
+    \end{figure}    
 \end{frame}
 
-\begin{frame}{MSBuild, the Playwright}
-    \begin{itemize}
-        \item Source of Truth for the dotNet project models
-        \item Coordinator of project-associated tooling
-    \end{itemize}
+\begin{frame}{MSBuild, the Producer}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/TakingNotes.jpg}
+        \caption{Keeping track of everything \\ \tiny{\href{Photo by Startup Stock Photos from Pexels}{https://www.pexels.com/photo/man-desk-notebook-office-7060/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{RyuJIT, the Director}
-    RyuJIT falls in the Just In Time model of dotNet execution as the translator from MSIL to native CPU code.
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/Director.jpg}
+        \caption{Making sure everything is on rails \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/acting-action-actor-actress-275200/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{CLI, the Stage}
-    \begin{itemize}
-        \item ECMA 335, standard since dotNet 1.0
-        \item Open Standard describing the execution of dotNet/MSIL code
-        \item Implemented by Microsoft with the CLR and by Xamarin with Mono
-    \end{itemize}
-\end{frame}
-
-\begin{frame}{DLR, the Improv Guide}
-    \begin{itemize}
-        \item Dynamic Language Runtime
-        \item Extendes the CLI implementations to add support for dynamic languages like IronPython and IronRuby
-    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/Theater.jpg}
+        \caption{Solid ground to stand on \\ \tiny{\href{Photo by Donald Tong from Pexels}{https://www.pexels.com/photo/architecture-room-indoors-auditorium-109669/}}}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{dotNet Native, the Cameraman}
-    Invokes RyuJIT ahead of time to produce a native yet CLI-dependant image for startup-time sensitive workloads
+    \begin{figure}
+        \centering
+        \includegraphics[width=250pt]{img/Camera.jpg}
+        \caption{Recording from all angles \\ \tiny{\href{Photo by Donald Tong from Pexels}{https://www.pexels.com/photo/camera-event-live-settings-66134/}}}
+    \end{figure}
 \end{frame}
 
 \section{From Visual Studio to the NES}
@@ -186,22 +171,22 @@ The NES runs on a MOS6502 8-bit CPU implementation from Ricoh, albeit without th
 \begin{frame}{Removing dotNet from C\#, 8 bits at a time}
 To be able to fit a C\# program inside the NES some concessions must be made, including:
 \begin{itemize}
-	\item No Garbage Collection
-	\item No Threading
-	\item No Operating System services
-	\item No DLR
-	\item No Reflection
-	\item No Sockets/Communication
+    \item No Garbage Collection
+    \item No Threading
+    \item No Operating System services
+    \item No DLR
+    \item No Reflection
+    \item No Sockets/Communication
 \end{itemize}
 \end{frame}
 
 \begin{frame}{MSIL and 8-bit CPUs don't mix}
 Bringing C\# compilation output to a MOS6502-compatible format may entail
 \begin{itemize}
-	\item Direct ASM transpilation from Roslyn C\# ASTs
-	\item C++ transpilation from Roslyn C\# ASTs for compilation with a MOS6502-compatible compiler
-	\item MSIL recompilation with LLILC
-	\item Researching the work of the .Net Micro Framework
+    \item Direct ASM transpilation from Roslyn C\# ASTs
+    \item C++ transpilation from Roslyn C\# ASTs for compilation with a MOS6502-compatible compiler
+    \item MSIL recompilation with LLILC
+    \item Researching the work of the .Net Micro Framework
 \end{itemize}
 \end{frame}
 
