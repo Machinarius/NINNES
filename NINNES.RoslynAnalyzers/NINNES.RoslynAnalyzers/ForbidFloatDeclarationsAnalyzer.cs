@@ -30,6 +30,12 @@ namespace NINNES.RoslynAnalyzers {
     #endregion
 
     private void OnNumericLiteralFound(SyntaxNodeAnalysisContext context) {
+      var floatTypeInfo = context.Compilation.GetTypeByMetadataName(typeof(float).FullName);
+      var literalTypeInfo = context.SemanticModel.GetTypeInfo(context.Node);
+      if (!literalTypeInfo.ConvertedType.Equals(floatTypeInfo)) {
+        return;
+      }
+
       var errorDiagnostic = Diagnostic.Create(FloatForbiddenRule, context.Node.GetLocation());
       context.ReportDiagnostic(errorDiagnostic);
     }

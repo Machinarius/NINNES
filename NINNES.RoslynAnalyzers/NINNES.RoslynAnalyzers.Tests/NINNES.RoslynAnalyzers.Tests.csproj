@@ -8,6 +8,7 @@
     <Compile Remove="Assets\DoubleMethodCall.cs" />
     <Compile Remove="Assets\FloatLiteral.cs" />
     <Compile Remove="Assets\FloatMethodDeclaration.cs" />
+    <Compile Remove="Assets\IntegerConstant.cs" />
     <Compile Remove="Assets\MultiplicationAssignment.cs" />
     <Compile Remove="Assets\MultiplicationAssignmentFixed.cs" />
     <Compile Remove="Assets\MultiplicationsWithVariables.cs" />
@@ -20,6 +21,7 @@
     <EmbeddedResource Include="Assets\DoubleMethodCall.cs" />
     <EmbeddedResource Include="Assets\FloatLiteral.cs" />
     <EmbeddedResource Include="Assets\FloatMethodDeclaration.cs" />
+    <EmbeddedResource Include="Assets\IntegerConstant.cs" />
     <EmbeddedResource Include="Assets\MultiplicationAssignment.cs" />
     <EmbeddedResource Include="Assets\MultiplicationAssignmentFixed.cs" />
     <EmbeddedResource Include="Assets\MultiplicationsWithVariables.cs" />

@@ -112,8 +112,7 @@ namespace NINNES.RoslynAnalyzers.Tests.Helpers {
                 string.Format("Expected:\nA project diagnostic with No location\nActual:\n{0}",
                 FormatDiagnostics(analyzer, actual)));
           }
-        }
-        else {
+        } else {
           VerifyDiagnosticLocation(analyzer, actual, actual.Location, expected.Locations.First());
           var additionalLocations = actual.AdditionalLocations.ToArray();
 
@@ -205,8 +204,7 @@ namespace NINNES.RoslynAnalyzers.Tests.Helpers {
             var location = diagnostics[i].Location;
             if (location == Location.None) {
               builder.AppendFormat("GetGlobalResult({0}.{1})", analyzerType.Name, rule.Id);
-            }
-            else {
+            } else {
               Assert.IsTrue(location.IsInSource,
                   $"Test base does not currently handle diagnostics in metadata locations. Diagnostic in metadata: {diagnostics[i]}\r\n");
 

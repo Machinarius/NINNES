@@ -29,11 +29,6 @@
 
 \maketitle
 
-\begin{frame}{Table of contents}
-  \setbeamertemplate{section in toc}[sections numbered]
-  \tableofcontents[hideallsubsections]
-\end{frame}
-
 \section{Introduction}
 \begin{frame}{What are we here for?}
     \begin{itemize}
@@ -55,7 +50,7 @@
 \begin{frame}{C\# Code Tailoring}
     \begin{figure}
         \centering
-        \includegraphics[height=190pt]{img/scissors.jpg}
+        \includegraphics[height=180pt]{img/scissors.jpg}
         \caption{Cutting C\# down to size \\ \tiny{\href{Photo by Pixabay, taken from Pexels}{https://www.pexels.com/photo/fabric-scissors-needle-needles-scissors-461035/}}}
     \end{figure}
 \end{frame}
@@ -63,7 +58,7 @@
 \begin{frame}{NES dotNet Shims Platform}
     \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{img/bridge.jpg}
+        \includegraphics[width=270pt]{img/bridge.jpg}
         \caption{Bridging the gap to the unknown \\ \tiny{\href{Photo by Nikolai Ulltang from Pexels}{https://www.pexels.com/photo/architecture-bridge-fog-ocean-285283/}}}
     \end{figure}
 \end{frame}
@@ -105,7 +100,7 @@
     \begin{figure}
         \centering
         \includegraphics[width=250pt]{img/Books.jpg}
-        \caption{Theory and Practice of the OS and CPU \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/pile-of-books-159866/}}}
+        \caption{Theory and Practice of the OS and Hardware \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/pile-of-books-159866/}}}
     \end{figure}
 \end{frame}
 
@@ -137,7 +132,7 @@
     \begin{figure}
         \centering
         \includegraphics[width=250pt]{img/Director.jpg}
-        \caption{Making sure everything is on rails \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/acting-action-actor-actress-275200/}}}
+        \caption{Making sure the actors perform their best \\ \tiny{\href{Photo by Pixabay from Pexels}{https://www.pexels.com/photo/acting-action-actor-actress-275200/}}}
     \end{figure}
 \end{frame}
 
@@ -159,7 +154,7 @@
 
 \section{From Visual Studio to the NES}
 \begin{frame}{The Limits of the NES}
-The NES runs on a MOS6502 8-bit CPU implementation from Ricoh, albeit without the decimal/floating point mode enabled. This brings forth several limitations:
+The NES runs on a MOS6502 8-bit CPU implementation from Ricoh, although without the decimal/floating point mode enabled. This brings forth several limitations:
 \begin{itemize}
     \item No floating point calculations
     \item No multiplication or division implemented in hardware
@@ -197,6 +192,13 @@ Bringing C\# compilation output to a MOS6502-compatible format may entail
         \includegraphics[width=250pt]{img/RoslynServices.png}
         \caption{Some of the services exposed by Roslyn \\ \tiny{\href{Taken from DotNetCurry}{https://www.dotnetcurry.com/csharp/1258/dotnet-platform-compiler-roslyn-overview}}}
     \end{figure}
+\end{frame}
+
+\begin{frame}{Compiler basics - What is compilation?}
+    Compilation produces a directly usable binary from code \\
+    Transpilation produces code in a different language from the source \\
+    \vspace{10pt}
+    \tiny{https://stackoverflow.com/a/40605701/528131}
 \end{frame}
 
 \begin{frame}{Compiler basics - What is code?}
@@ -237,9 +239,20 @@ Two words: CUSTOM SQUIGGLIES
 
 \section{DEMO}
 
+\begin{frame}{Takeaway}
+    Roslyn allows to program specific non-functional requirements to aid programmers
+\end{frame}
+
+\section{QUESTIONS?}
+
 \begin{frame}{Thank you!}
 \begin{block}{Germán Valencia}
-    @XMachinarius \\ Growth Acceleration Partners
+    @XMachinarius \\ 
+    Growth Acceleration Partners
+\end{block}
+
+\begin{block}{The NINNES Project}
+    https://github.com/Machinarius/NINNES
 \end{block}
 \end{frame}
 

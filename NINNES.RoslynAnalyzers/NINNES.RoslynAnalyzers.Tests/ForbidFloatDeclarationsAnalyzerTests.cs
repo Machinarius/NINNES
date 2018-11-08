@@ -47,6 +47,13 @@ namespace NINNES.RoslynAnalyzers.Tests {
       VerifyCSharpDiagnostic(testProgram, expectedDiagnostics);
     }
 
+    [TestMethod]
+    public void IntegerConstantsMustNotBeAffectedByDiagnostics() {
+      var testProgram = TestAssetsReader.ReadTestAsset("IntegerConstant.cs");
+      var expectedDiagnostics = new DiagnosticResult[0];
+      VerifyCSharpDiagnostic(testProgram, expectedDiagnostics);
+    }
+
     protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer() {
       return new ForbidFloatDeclarationsAnalyzer();
     }
