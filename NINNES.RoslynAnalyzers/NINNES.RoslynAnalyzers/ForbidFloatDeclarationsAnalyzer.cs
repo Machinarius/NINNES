@@ -8,7 +8,7 @@ namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidFloatDeclarationsAnalyzer : DiagnosticAnalyzer {
     #region Boilerplate
-    public const string DiagnosticId = "NESDoesNotSupportDecimals";
+    public const string DiagnosticId = DiagnosticIds.DecimalDeclarationsForbidden;
 
     private static readonly LocalizableString Title =
       new LocalizableResourceString(nameof(Resources.FloatForbiddenTitle), Resources.ResourceManager, typeof(Resources));
@@ -42,7 +42,7 @@ namespace NINNES.RoslynAnalyzers {
 
     private void OnPredefinedTypeNodeFound(SyntaxNodeAnalysisContext context) {
       var childToken = context.Node.ChildTokens().FirstOrDefault();
-      if (childToken == null || !childToken.IsKind(SyntaxKind.FloatKeyword)) {
+      if (!childToken.IsKind(SyntaxKind.FloatKeyword)) {
         return;
       }
 

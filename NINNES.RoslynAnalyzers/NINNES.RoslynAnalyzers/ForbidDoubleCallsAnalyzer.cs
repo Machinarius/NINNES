@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -9,7 +8,7 @@ namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidDoubleCallsAnalyzer : DiagnosticAnalyzer {
     #region Boilerplate
-    public const string DiagnosticId = "NESDoesNotSupportDecimmalCalls";
+    public const string DiagnosticId = DiagnosticIds.DecimalCallsForbidden;
 
     private static readonly LocalizableString Title =
       new LocalizableResourceString(nameof(Resources.DoubleMethodsTitle), Resources.ResourceManager, typeof(Resources));
@@ -31,13 +30,13 @@ namespace NINNES.RoslynAnalyzers {
 
     private void OnMethodInvocationFound(SyntaxNodeAnalysisContext context) {
       // More info: https://johnkoerner.com/csharp/working-with-types-in-your-analyzer/
-      var invExpr = (InvocationExpressionSyntax) context.Node;
+      var invExpr = (InvocationExpressionSyntax)context.Node;
       var methodInfo = (IMethodSymbol)context.SemanticModel.GetSymbolInfo(invExpr.Expression).Symbol;
       var returnType = methodInfo.ReturnType;
       if (returnType.SpecialType != SpecialType.System_Double) {
         return;
       }
-      
+
       var errorDiagnostic = Diagnostic.Create(DoubleMethodInvocationsForbiddenRule, invExpr.Expression.GetLocation());
       context.ReportDiagnostic(errorDiagnostic);
     }

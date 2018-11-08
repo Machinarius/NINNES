@@ -11,7 +11,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
     public void CallsToMethodsReturningDoubleMustBeInvalidated() {
       var testProgram = TestAssetsReader.ReadTestAsset("DoubleMethodCall.cs");
       var expectedDiagnostic = new DiagnosticResult {
-        Id = "NESDoesNotSupportDecimmalCalls",
+        Id = "NES001",
         Message = "Do not invoke methods that return Double",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {

@@ -65,7 +65,7 @@ namespace NINNES.RoslynAnalyzers {
       var trackingAnnotation = new SyntaxAnnotation();
       invocation = invocation.WithAdditionalAnnotations(trackingAnnotation);
 
-      var syntaxRoot = await document.GetSyntaxRootAsync();
+      var syntaxRoot = await document.GetSyntaxRootAsync(cancelToken);
       var modifiedRoot = syntaxRoot.ReplaceNode(node, invocation);
       var modifiedNode = modifiedRoot.GetAnnotatedNodes(trackingAnnotation).First();
 
@@ -92,7 +92,7 @@ namespace NINNES.RoslynAnalyzers {
         .WithAdditionalAnnotations(trackingAnnotation)
         .WithTriviaFrom(node);
 
-      var syntaxRoot = await document.GetSyntaxRootAsync();
+      var syntaxRoot = await document.GetSyntaxRootAsync(cancelToken);
       var modifiedRoot = syntaxRoot.ReplaceNode(node, assignment);
       var modifiedNode = modifiedRoot.GetAnnotatedNodes(trackingAnnotation).First();
 

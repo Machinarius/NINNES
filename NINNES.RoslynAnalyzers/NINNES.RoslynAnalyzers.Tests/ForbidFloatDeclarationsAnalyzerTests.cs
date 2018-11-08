@@ -11,7 +11,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
     public void FloatLiteralsMustBeInvalidated() {
       var testProgram = TestAssetsReader.ReadTestAsset("FloatLiteral.cs");
       var expectedDiagnostic = new DiagnosticResult {
-        Id = "NESDoesNotSupportDecimals",
+        Id = "NES002",
         Message = "Rework your code to not depend on float nor double",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {
@@ -27,7 +27,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
       var testProgram = TestAssetsReader.ReadTestAsset("FloatMethodDeclaration.cs");
       var expectedDiagnostics = new [] { 
         new DiagnosticResult {
-          Id = "NESDoesNotSupportDecimals",
+          Id = "NES002",
           Message = "Rework your code to not depend on float nor double",
           Severity = DiagnosticSeverity.Error,
           Locations = new[] {
@@ -35,7 +35,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
           }
         },
         new DiagnosticResult {
-          Id = "NESDoesNotSupportDecimals",
+          Id = "NES002",
           Message = "Rework your code to not depend on float nor double",
           Severity = DiagnosticSeverity.Error,
           Locations = new[] {

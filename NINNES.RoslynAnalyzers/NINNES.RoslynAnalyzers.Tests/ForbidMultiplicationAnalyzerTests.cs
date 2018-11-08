@@ -18,7 +18,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
     public void CodeWithMultiplicationsMustTriggerAnErrorDiagnostic() {
       var testProgram = TestAssetsReader.ReadTestAsset("SimpleMultiplication.cs");
       var multiplicationDiagnostic = new DiagnosticResult {
-        Id = "NESMultiplicationForbidden",
+        Id = "NES003",
         Message = "Use bit-shifting multiplication or NESMath.Multiply to multiply two numbers with an algorithm that can be run on the NES CPU",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {
@@ -33,7 +33,7 @@ namespace NINNES.RoslynAnalyzers.Tests {
     public void CodeWithMultiplicationAssignmentsMustTriggerAnErrorDiagnostic() {
       var testProgram = TestAssetsReader.ReadTestAsset("MultiplicationAssignment.cs");
       var multiplicationAssignmentDiagnostic = new DiagnosticResult {
-        Id = "NESMultiplicationForbidden",
+        Id = "NES003",
         Message = "Use bit-shifting multiplication or NESMath.Multiply to multiply two numbers with an algorithm that can be run on the NES CPU",
         Severity = DiagnosticSeverity.Error,
         Locations = new[] {

@@ -9,7 +9,8 @@ namespace NINNES.RoslynAnalyzers {
   [DiagnosticAnalyzer(LanguageNames.CSharp)]
   public class ForbidMultiplicationAnalyzer : DiagnosticAnalyzer {
     #region Boilerplate
-    public const string DiagnosticId = "NESMultiplicationForbidden";
+
+    public const string DiagnosticId = DiagnosticIds.MultiplicationForbidden;
 
     private static readonly LocalizableString Title =
       new LocalizableResourceString(nameof(Resources.MultiplicationForbiddenTitle), Resources.ResourceManager, typeof(Resources));
